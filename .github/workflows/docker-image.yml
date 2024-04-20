@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # pin@v2
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # pin@v2
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # pin@v1
+        uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3 # pin@v1
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@4b4e9c3e2d4531116a6f8ba8e71fc6e2cb6e6c8c # pin@v1
+        uses: docker/setup-buildx-action@d70bba72b1f3fd22344832f00baa16ece964efeb # pin@v1
 
       - name: Cache Docker layers
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # pin@v2
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # pin@v2
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-${{ matrix.image }}-buildx-${{ github.sha }}
@@ -33,20 +33,20 @@ jobs:
             ${{ runner.os }}-${{ matrix.image }}-buildx-
 
       - name: Login to DockerHub
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # pin@v1
+        uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # pin@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # pin@v1
+        uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # pin@v1
         with:
           registry: ghcr.io
           username: synthetixio
           password: ${{ secrets.GH_PACKAGES_READ_WRITE }}
 
       - name: Build and push (${{ matrix.image }})
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 # pin@v2
+        uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0 # pin@v2
         with:
           context: ./${{ matrix.image }}
           file: ./${{ matrix.image }}/Dockerfile
