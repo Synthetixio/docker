@@ -1,16 +1,16 @@
-ARG NGINX_VER=1.23.4
+ARG NGINX_VER=1.25.5
 
 FROM nginx:${NGINX_VER}-alpine as base
 
 ARG NGX_WAF_VERSION=current
-ARG CJSON_VERSION=v1.7.15
+ARG CJSON_VERSION=v1.7.17
 ARG UTHASH_VERSION=v2.3.0
-ARG LIB_SODIUM_VERSION=1.0.18-RELEASE
-ARG MODSEC_VERSION=v3.0.8
+ARG LIB_SODIUM_VERSION=1.0.19-RELEASE
+ARG MODSEC_VERSION=v3.0.12
 ARG MODSEC_NGINX_CONNECTOR_VERSION=v1.0.3
 ARG NGINX_GEOIP2_MODULE_VERSION=3.4
-ARG GEO_DB_RELEASE=2023-04
-ARG OWASP_TAG=v3.3.4
+ARG GEO_DB_RELEASE=2024-04
+ARG OWASP_TAG=v3.3.5
 ARG BROTLI_VERSION=master
 ARG HEADERS_MORE_VERSION=master
 
@@ -88,7 +88,7 @@ RUN git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git --br
     wget -O - https://download.db-ip.com/free/dbip-country-lite-${GEO_DB_RELEASE}.mmdb.gz | gzip -d > /etc/nginx/geoip/dbip-country-lite.mmdb
 
 # install brotli
-RUN git clone --depth=1 https://github.com/google/ngx_brotli --branch ${BROTLI_VERSION}
+RUN git clone --depth=1 --recurse-submodules -j8 https://github.com/google/ngx_brotli --branch ${BROTLI_VERSION}
 
 # install headers-more
 RUN git clone --depth=1 https://github.com/openresty/headers-more-nginx-module --branch ${HEADERS_MORE_VERSION}
